@@ -3,24 +3,35 @@ import os
 from ultralytics import YOLO
 
 # Load the YOLOv8 model
-modelo_pt = 'path'
+modelo_pt = r'Modelos\Deploys_Ultralytics_Hub\detector_de_placas_yolov8_nano.pt'
 
 model = YOLO(f'{modelo_pt}')
 
 # Open the video file
-video_path = r"path"
+video_path = r"Video\Video_teste.mp4"
 
 #model.predict(video_path, save=True, imzs=640, conf=0.7, save_txt = True)
+# project=r"Resultado_de_dados\previsao_modelo_txt", name="arquivo_txt"
 
 cap = cv2.VideoCapture(video_path)
-save_path = f"Capturas_de_{video_path}"
+
+# Certifique-se de que o diretório de saída existe, senão crie-o
+save_path_cortadas = r"Resultado_de_dados\imagens_cortadas"
+
+if not os.path.exists(save_path_cortadas ):
+    os.makedirs(save_path_cortadas )
+    
+save_path_inteiras = r"Resultado_de_dados\imagens_inteiras"
+
+if not os.path.exists(save_path_inteiras ):
+    os.makedirs(save_path_inteiras )
 # Loop through the video frames
 file_num = 0
 unique_id=set()
 unique_id_to_class = {}  # Mapeia IDs únicos para classes
 # Define a nova largura e altura desejada
 new_width, new_height = 1100, 600
-
+#project=r"Resultado_de_dados\previsao_modelo_txt", name="arquivo_txt"
 # Loop through the video frames
 while cap.isOpened():
     # Read a frame from the video
@@ -33,7 +44,7 @@ while cap.isOpened():
                   
         # Run YOLOv8 inference on the frameaaa
         #results = model(frame)
-        results = model.track(frame, persist=True,conf=0.7, save_txt=True)
+        results = model.track(frame, persist=True,conf=0.8, save_txt=True)
         # Visualize the results on the frame
 
         if  results[0].boxes.id !=  None:
@@ -58,10 +69,10 @@ while cap.isOpened():
     
                     # Save the cropped image with a unique filename
                     filename = f"imagem_destacada_do_id_{int_id}.jpg"
-                    filepath = os.path.join(save_path, filename)
+                    filepath = os.path.join(save_path_cortadas, filename)
                     cv2.imwrite(filepath, cropped_img)
                     filename_inteira = f"foto_inteira_do_id_{int_id}.jpg"
-                    filepath_inteira = os.path.join(save_path, filename_inteira)
+                    filepath_inteira = os.path.join(save_path_inteiras, filename_inteira)
                     cv2.imwrite(filepath_inteira, frame)
                     
                 # Draw the bounding box and id on the frame
