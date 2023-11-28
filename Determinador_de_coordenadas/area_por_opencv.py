@@ -1,7 +1,7 @@
 import cv2
 
 # Carregue a imagem
-image_path = r"save_test\foto_inteira_do_id_14.jpg"
+image_path = r"Resultado_de_dados\imagens_inteiras_GPT\foto_inteira_do_id_17.jpg"
 imagem = cv2.imread(image_path)
 clone = imagem.copy()
 
@@ -60,3 +60,10 @@ if ponto_inicial and ponto_final:
 
 # Feche a janela e libere recursos
 cv2.destroyAllWindows()
+
+
+# Area Direita = (x1, y1, x2, y2) = (826, 291, 1088, 555)
+
+# Area Esquerda = (x1, y1, x2, y2) = (395, 305, 563, 448)
+
+# Area Acima = (x1, y1, x2, y2) = (522, 114, 919, 214)
